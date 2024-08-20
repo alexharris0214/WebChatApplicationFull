@@ -17,11 +17,11 @@ import java.util.function.Function;
 public class JwtAuthenticateService {
 
     private final String SECRET_KEY = "4f77774c6f414c70357864596b4c64374343735338394d767335304535573166";
-    public String extractUsername(String token) {
+    public String extractUserId(String token) {
         return extractClaim(token, Claims::getSubject);
     }
     public boolean isTokenValid(String token, UserDetails userDetails){
-        final String userName = extractUsername(token);
+        final String userName = extractUserId(token);
         return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){

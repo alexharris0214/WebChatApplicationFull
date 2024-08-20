@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -27,14 +28,18 @@ public class MessagingServiceImpl implements MessagingService{
     private UserConversationsRepository userConversationsRepository;
 
     @Override
-    public void insertMessage(MessageRequest messageRequest, UUID userId) {
+    public Message insertMessage(MessageRequest messageRequest, UUID userId) {
         final String messageText = messageRequest.getText();
         final Message message = Message.builder()
                         .senderId(userId)
                                 .text(messageText)
                                         .conversation_id(messageRequest.getConversationId())
                                                 .build();
-        messagesRepository.save(message);
+        Optional<Message> messageOptional = messagesRepository.save(message);
+        if(messageOptional.isPresent()){
+            return messageOptional.get();
+        }
+        return null;
     }
 
     @Override
