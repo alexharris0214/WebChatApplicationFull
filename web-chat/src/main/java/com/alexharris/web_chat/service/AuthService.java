@@ -23,10 +23,12 @@ public class AuthService {
                 .last_name(request.getLast_name())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .role(request.getRole())
                 .build();
         var savedUser = userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
         return AuthResponse.builder()
+                .userId(savedUser.getId())
                 .token(jwtToken)
                 .build();
     }
@@ -42,6 +44,7 @@ public class AuthService {
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthResponse.builder()
+                .userId(user.getId())
                 .token(jwtToken)
                 .build();
     }
