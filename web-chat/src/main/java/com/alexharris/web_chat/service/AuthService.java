@@ -1,15 +1,13 @@
 package com.alexharris.web_chat.service;
 
-import com.alexharris.web_chat.models.AuthRequest;
-import com.alexharris.web_chat.models.AuthResponse;
-import com.alexharris.web_chat.models.User;
+import com.alexharris.web_chat.models.*;
 import com.alexharris.web_chat.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.alexharris.web_chat.models.RegisterRequest
+
 import java.util.ArrayList;
 
 @Service
@@ -19,7 +17,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
-    public AuthResponse register(RegisterRequest request) throws Exception{
+    public AuthResponse register(RegisterRequest request){
         var user = User.builder()
                 .first_name(request.getFirst_name())
                 .last_name(request.getLast_name())
@@ -33,7 +31,7 @@ public class AuthService {
                 .build();
     }
 
-    public AuthResponse authenticate(AuthRequest request) {
+    public AuthResponse authenticate(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
