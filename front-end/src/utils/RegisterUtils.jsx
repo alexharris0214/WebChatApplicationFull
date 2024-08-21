@@ -1,4 +1,4 @@
-import { API_URL } from "../constants"
+import { AUTH_URL} from "../constants"
 import axios from 'axios'
 
 export const validateRegisterInputs = (firstName, lastName, email, password) => {
@@ -11,14 +11,18 @@ export const registerUser = async (firstName, lastName, email, password) => {
         return
     }
     const body = {
-        firstName: firstName,
-        lastName: lastName,
+        first_name: firstName,
+        last_name: lastName,
         email: email,
         password: password
     }
 
     try{
-        const response = await axios.post(API_URL + '/api/auth/register', body)
+        const response = await axios.post(AUTH_URL + '/api/auth/register', body, {
+            headers: {
+                'Content-Type': 'application/json'
+            }}
+        )
         if(response.status == 200){
             return response.data.userId
         }

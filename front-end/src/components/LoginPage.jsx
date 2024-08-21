@@ -9,14 +9,15 @@ export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const {setUserId} = useContext(AuthContext)
+  const {setUserId, setToken} = useContext(AuthContext)
 
   const handleLoginPress = async (event) => {
     event.preventDefault();
-    const userId = await loginUser(email, password);
-    if(userId != -1){
+    const loginResponseData = await loginUser(email, password);
+    if(loginResponseData != -1){
       navigate("/home")
-      setUserId(userId)
+      setUserId(loginResponseData.userId)
+      setToken(loginResponseData.token)
     } else {
       alert("Invalid credentials")
     }

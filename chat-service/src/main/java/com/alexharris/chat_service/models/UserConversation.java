@@ -17,8 +17,8 @@ import java.util.UUID;
 @IdClass(UserConversationId.class)
 public class UserConversation {
     @Id
-    private UUID user_id;
-    @Id
-    private UUID conversation_id;
-}
+    private UUID userId;
 
+    @Id
+    private UUID conversationId;
+}

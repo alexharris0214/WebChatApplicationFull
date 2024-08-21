@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface UserConversationsRepository extends JpaRepository<UserConversation, UserConversationId> {
     Optional<UserConversation> findById(UserConversationId id);
     
-    Optional<UserConversation> save(UserConversation userConversations);
+    UserConversation save(UserConversation userConversations);
 
     List<UserConversation> findByUserId(UUID userId);
 }

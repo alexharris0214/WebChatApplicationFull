@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Data
@@ -18,5 +19,5 @@ public class Conversation {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String created_at;
+    private ZonedDateTime created_at;
 }

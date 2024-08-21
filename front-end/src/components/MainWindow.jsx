@@ -9,9 +9,10 @@ export const MainWindow = () => {
     const {conversations, selectedConversationIndex} = useContext(ConversationContext)
     const [windowHeading, setWindowHeading] = useState('')
     const [messages, setMessages] = useState([])
-    const {userId} = useContext(AuthContext)
+    const {userId, token} = useContext(AuthContext)
 
     useEffect(() => {
+        console.log(token)
         if(conversations != undefined && conversations.length != 0){
             setWindowHeading(generateWindowHeadingFromConversation(conversations[selectedConversationIndex]))
             setMessages(generateMessagesFromConversation(conversations[selectedConversationIndex], userId))

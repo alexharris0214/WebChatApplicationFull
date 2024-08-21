@@ -10,14 +10,15 @@ export const RegisterPage = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
-    const {setUserId} = useContext(AuthContext)
+    const {setUserId, setToken} = useContext(AuthContext)
     const navigate = useNavigate()
 
     const handleRegisterUser = async (event) => {
       event.preventDefault()
-      const response = await registerUser(firstName, lastName, email, password)
-      if(response != -1){
-        setUserId(response)
+      const registerResponseData = await registerUser(firstName, lastName, email, password)
+      if(registerResponseData != -1){
+        setUserId(registerResponseData.userId)
+        setToken(registerResponseData.token)
         navigate("/home")
       } else {
         alert("Something went wrong")

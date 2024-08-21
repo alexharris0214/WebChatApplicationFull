@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
 import { ConversationContext } from "../providers/ConversationProvider"
 import axios from "axios"
-import { API_URL } from "../constants"
+import { CHAT_URL } from "../constants"
 import { AuthContext } from "../providers/AuthProvider"
 
 export const MessageBar = () => {
@@ -9,7 +9,6 @@ export const MessageBar = () => {
     const { conversations, selectedConversationIndex, setConversations } = useContext(ConversationContext)
     const { userId } = useContext(AuthContext)
 
-    
     const conversation = conversations[selectedConversationIndex]
     const conversationId = conversation?._id
 
@@ -17,11 +16,10 @@ export const MessageBar = () => {
         const messageToSend = {
             message,
             conversationId,
-            recipientId: conversation.userModels._id,
             senderId: userId
         }
 
-        const response = await axios.post(API_URL + "/api/messages/insert-message", messageToSend)
+        const response = await axios.get(CHAT_URL + "/api/messages/create-message", messageToSend)
 
         if (response.status === 200) {
             let updatedConversations = [...conversations]
