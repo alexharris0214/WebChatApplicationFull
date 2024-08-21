@@ -18,7 +18,7 @@ export const registerUser = async (firstName, lastName, email, password) => {
     }
 
     try{
-        const response = await axios.post(API_URL + '/api/users/register', body)
+        const response = await axios.post(API_URL + '/api/auth/register', body)
         if(response.status == 200){
             return response.data.userId
         }

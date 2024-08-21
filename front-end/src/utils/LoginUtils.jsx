@@ -6,7 +6,7 @@ export const loginUser = async (email, password) => {
     }
 
     try{
-        const response = await axios.post("http://localhost:3000/api/users/login", body);
+        const response = await axios.post("http://localhost:8081/api/auth/login", body);
         return response.data
     } catch(err){
         console.log(err)

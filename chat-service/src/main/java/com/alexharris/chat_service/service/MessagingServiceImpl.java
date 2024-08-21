@@ -55,7 +55,7 @@ public class MessagingServiceImpl implements MessagingService{
         Conversation conversation = new Conversation();
         conversation.setId(UUID.randomUUID());
         conversationsRepository.save(conversation);
-
+        
         UserConversation uc1 = new UserConversation();
         uc1.setUser_id(userId);
         uc1.setConversation_id(conversation.getId());
