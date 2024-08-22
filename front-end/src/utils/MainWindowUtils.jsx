@@ -1,18 +1,19 @@
 import { MessageComponent } from "../components/MessageComponent"
+import { formatDate } from "./MessageUtils"
 
 export const generateWindowHeadingFromConversation = (conversation) => {
-    console.log(`${conversation.userModels.firstName} ${conversation.userModels.lastName}`)
-    return `${conversation.userModels.firstName} ${conversation.userModels.lastName}`
+
+    return `${conversation.recipientFirstName} ${conversation.recipientLastName}`
 }
 
 export const generateMessagesFromConversation = (conversation, userId) => {
-    console.log(conversation)
+    
     return(
         conversation.messages.map((message, index) => {
             return(
                 <MessageComponent
                     text={message.text}
-                    timeStamp={message.timeStamp}
+                    timeStamp={formatDate(message.timestamp)}
                     key={index}
                     senderId = {message.senderId}
                     userId = {userId}

@@ -23,6 +23,7 @@ public class Message {
 
     private UUID conversationId;
     private UUID senderId;
+    private UUID recipientId;
     private String text;
     private ZonedDateTime timestamp;
 }

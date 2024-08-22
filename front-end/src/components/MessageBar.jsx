@@ -7,19 +7,22 @@ import { AuthContext } from "../providers/AuthProvider"
 export const MessageBar = () => {
     const [message, setMessage] = useState("")
     const { conversations, selectedConversationIndex, setConversations } = useContext(ConversationContext)
-    const { userId } = useContext(AuthContext)
+    const { userId, token} = useContext(AuthContext)
 
     const conversation = conversations[selectedConversationIndex]
-    const conversationId = conversation?._id
+    const conversationId = conversation?.conversationId
 
     const handleSendButton = async () => {
         const messageToSend = {
-            message,
-            conversationId,
-            senderId: userId
+            text: message,
+            conversationId:conversationId,
+            recipientId: conversation.recipientId
+        }
+        const headers = {
+            "Authorization":token
         }
 
-        const response = await axios.get(CHAT_URL + "/api/messages/create-message", messageToSend)
+        const response = await axios.post(CHAT_URL + "/api/messages/create-message", messageToSend, {headers})
 
         if (response.status === 200) {
             let updatedConversations = [...conversations]

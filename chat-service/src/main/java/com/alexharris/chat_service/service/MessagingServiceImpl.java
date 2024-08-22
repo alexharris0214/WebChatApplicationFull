@@ -2,8 +2,10 @@ package com.alexharris.chat_service.service;
 
 import com.alexharris.chat_service.models.Conversation;
 import com.alexharris.chat_service.models.Message;
+import com.alexharris.chat_service.models.User;
 import com.alexharris.chat_service.models.UserConversation;
 import com.alexharris.chat_service.models.requests.MessageRequest;
+import com.alexharris.chat_service.models.requests.UserOther;
 import com.alexharris.chat_service.repository.ConversationsRepository;
 import com.alexharris.chat_service.repository.MessagesRepository;
 import com.alexharris.chat_service.repository.UserConversationsRepository;
@@ -38,6 +40,7 @@ public class MessagingServiceImpl implements MessagingService{
                 .senderId(userId)
                 .text(messageText)
                 .conversationId(messageRequest.getConversationId())
+                .recipientId(messageRequest.getRecipientId())
                 .timestamp(ZonedDateTime.now())
                 .build();
         Message messageSaved = messagesRepository.save(message);
@@ -76,5 +79,13 @@ public class MessagingServiceImpl implements MessagingService{
     @Override
     public void deleteConversation(UUID userId, UUID recipientId) {
 
+    }
+
+    @Override
+    public List<UserOther> getAssociatedUsers(UUID userId){
+        List<User> otherUsers = userRepository.findUsersInConversationWith(userId);
+        return otherUsers.stream()
+                .map(user -> new UserOther(user.getId(), user.getFirst_name(), user.getLast_name()))
+                .collect(Collectors.toList());
     }
 }

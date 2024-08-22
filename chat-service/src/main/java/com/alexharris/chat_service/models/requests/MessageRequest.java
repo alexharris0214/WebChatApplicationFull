@@ -8,4 +8,5 @@ import java.util.UUID;
 public class MessageRequest {
     private String text;
     private UUID conversationId;
+    private UUID recipientId;
 }

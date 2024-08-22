@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  backend-auth:
+    build:
+      context: ./auth-service  # Path to the directory containing the Dockerfile
+      dockerfile: Dockerfile  # Name of the Dockerfile (if it's not named Dockerfile, specify the exact name here)
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=mysecretpassword
+    depends_on:
+      - database
+  backend-chat:
+    build:
+      context: ./auth-chat  # Path to the directory containing the Dockerfile
+      dockerfile: Dockerfile  # Name of the Dockerfile (if it's not named Dockerfile, specify the exact name here)
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=mysecretpassword
+    depends_on:
+      - database
+
+  frontend:
+    build:
+      context: ./frontend  # Path to the directory containing the Dockerfile for the frontend
+      dockerfile: Dockerfile  # Name of the Dockerfile if different from Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8080
+
+  database:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -4,6 +4,7 @@ import com.alexharris.chat_service.models.Conversation;
 import com.alexharris.chat_service.models.Message;
 import com.alexharris.chat_service.models.requests.CreateConversationRequest;
 import com.alexharris.chat_service.models.requests.MessageRequest;
+import com.alexharris.chat_service.models.requests.UserOther;
 import com.alexharris.chat_service.service.JwtAuthenticateService;
 import com.alexharris.chat_service.service.MessagingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("api/messages")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ChatController {
     @Autowired
     private MessagingService messagingService;
@@ -40,5 +42,12 @@ public class ChatController {
         UUID userId = UUID.fromString(jwtAuthenticateService.extractUserId(headers.getFirst("Authorization")));
         List<Message> messages = messagingService.getAllMessages(userId);
         return ResponseEntity.ok(messages);
+    }
+
+    @GetMapping("/get-associated-users")
+    public ResponseEntity<List<UserOther>> getAssociatedUsers(@RequestHeader HttpHeaders headers){
+        UUID userId = UUID.fromString(jwtAuthenticateService.extractUserId(headers.getFirst("Authorization")));
+        List<UserOther> userOtherList = messagingService.getAssociatedUsers(userId);
+        return ResponseEntity.ok(userOtherList);
     }
 }
